@@ -1,0 +1,9 @@
+*
+!*/
+!*.*
+
+/vhdlSrcSyn-Sep25_2007
+/waveforms
+*.o
+*.vcd
+*.cf
