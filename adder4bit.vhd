@@ -8,7 +8,8 @@ entity adder4bit is
     b      : buffer std_logic_vector(3 downto 0);
     sub_op : in std_logic;
     sum    : out std_logic_vector(3 downto 0);
-    cout   : out std_logic
+    cout   : out std_logic; -- overflow
+    zero   : out std_logic -- zero
   );
 end;
 
@@ -19,6 +20,7 @@ architecture rtl of adder4bit is
   signal cout2 : std_logic;
   signal int_b : std_logic_vector(3 downto 0);
 begin
+  -- 2's complement if sub_op
   cin      <= sub_op;
   int_b(0) <= b(0) xor sub_op;
   int_b(1) <= b(1) xor sub_op;
