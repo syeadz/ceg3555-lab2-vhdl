@@ -4,59 +4,67 @@ use ieee.std_logic_1164.all;
 entity register4bit is
   port
   (
-    clk      : in std_logic;
-    reset    : in std_logic;
-    enable   : in std_logic;
-    data_in  : in std_logic_vector(3 downto 0);
-    data_out : out std_logic_vector(3 downto 0)
-  );
+    reset, load : in std_logic;
+    clk         : in std_logic;
+    data_in     : in std_logic_vector(3 downto 0);
+    data_out    : out std_logic_vector(3 downto 0));
 end;
 
 architecture rtl of register4bit is
-  signal i_reset : std_logic;
-  signal int_data_out : std_logic_vector(3 downto 0);
-begin
-  i_reset <= not reset;
-    
-  q0 : entity work.enardFF_2 port map
+  signal int_Value, int_notValue : std_logic_vector(3 downto 0);
+  signal not_reset               : std_logic;
+
+  component enARdFF_2
+    port
     (
-    i_resetBar => i_reset,
-    i_d        => data_in(0),
-    i_enable   => enable,
-    i_clock    => clk,
-    o_q        => int_data_out(0),
-    o_qBar     => open
-    );
+      i_resetBar  : in std_logic;
+      i_d         : in std_logic;
+      i_enable    : in std_logic;
+      i_clock     : in std_logic;
+      o_q, o_qBar : out std_logic);
+  end component;
 
-  q1 : entity work.enardFF_2 port
-    map (
-    i_resetBar => i_reset,
-    i_d        => data_in(1),
-    i_enable   => enable,
-    i_clock    => clk,
-    o_q        => int_data_out(1),
-    o_qBar     => open
-    );
+begin
+  not_reset <= not reset;
 
-  q2 : entity work.enardFF_2 port
-    map (
-    i_resetBar => i_reset,
-    i_d        => data_in(2),
-    i_enable   => enable,
-    i_clock    => clk,
-    o_q        => int_data_out(2),
-    o_qBar     => open
-    );
-
-  q3 : entity work.enardFF_2 port
-    map (
-    i_resetBar => i_reset,
+  ff3 : enARdFF_2
+  port map
+  (
+    i_resetBar => not_reset,
     i_d        => data_in(3),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
-    o_q        => int_data_out(3),
-    o_qBar     => open
-    );
+    o_q        => int_Value(3),
+    o_qBar     => int_notValue(3));
 
-  data_out <= int_data_out;
+  ff2 : enARdFF_2
+  port
+  map (i_resetBar => not_reset,
+  i_d             => data_in(2),
+  i_enable        => load,
+  i_clock         => clk,
+  o_q             => int_Value(2),
+  o_qBar          => int_notValue(2));
+
+  ff1 : enARdFF_2
+  port
+  map (i_resetBar => not_reset,
+  i_d             => data_in(1),
+  i_enable        => load,
+  i_clock         => clk,
+  o_q             => int_Value(1),
+  o_qBar          => int_notValue(1));
+
+  ff0 : enARdFF_2
+  port
+  map (i_resetBar => not_reset,
+  i_d             => data_in(0),
+  i_enable        => load,
+  i_clock         => clk,
+  o_q             => int_Value(0),
+  o_qBar          => int_notValue(0));
+
+  -- Output Driver
+  data_out <= int_Value;
+
 end rtl;
