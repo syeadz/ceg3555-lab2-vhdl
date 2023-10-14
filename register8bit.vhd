@@ -6,7 +6,7 @@ entity register8bit is
   (
     clk      : in std_logic;
     reset    : in std_logic;
-    enable   : in std_logic;
+    load   : in std_logic;
     data_in  : in std_logic_vector(7 downto 0);
     data_out : out std_logic_vector(7 downto 0)
   );
@@ -22,7 +22,7 @@ begin
     (
     i_resetBar => i_reset,
     i_d        => data_in(0),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(0),
     o_qBar     => open
@@ -32,7 +32,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(1),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(1),
     o_qBar     => open
@@ -42,7 +42,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(2),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(2),
     o_qBar     => open
@@ -52,7 +52,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(3),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(3),
     o_qBar     => open
@@ -62,7 +62,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(4),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(4),
     o_qBar     => open
@@ -72,7 +72,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(5),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(5),
     o_qBar     => open
@@ -82,7 +82,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(6),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(6),
     o_qBar     => open
@@ -92,7 +92,7 @@ begin
     map (
     i_resetBar => i_reset,
     i_d        => data_in(7),
-    i_enable   => enable,
+    i_enable   => load,
     i_clock    => clk,
     o_q        => int_data_out(7),
     o_qBar     => open

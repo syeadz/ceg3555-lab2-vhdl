@@ -8,7 +8,7 @@ end register8bit_tb;
 architecture rtl of register8bit_tb is
   signal clk_tb      : std_logic;
   signal reset_tb    : std_logic;
-  signal enable_tb   : std_logic;
+  signal load_tb   : std_logic;
   signal data_in_tb  : std_logic_vector(7 downto 0);
   signal data_out_tb : std_logic_vector(7 downto 0);
 
@@ -20,7 +20,7 @@ begin
     (
       clk      => clk_tb,
       reset    => reset_tb,
-      enable   => enable_tb,
+      load   => load_tb,
       data_in  => data_in_tb,
       data_out => data_out_tb
     );
@@ -38,7 +38,7 @@ begin
 
   stim_proc : process
   begin
-    enable_tb <= '0';
+    load_tb <= '0';
     reset_tb  <= '1', '0' after period;
     wait for period;
     assert data_out_tb = "00000000" report "Data mismatch at reset" severity error;
@@ -48,7 +48,7 @@ begin
     assert data_out_tb = "00000000" report "Data mismatch at reset" severity error;
 
     wait for period/2;
-    enable_tb <= '1';
+    load_tb <= '1';
     wait for period/2;
     assert data_out_tb = "00000000" report "Data mismatch at clock off" severity error;
 
@@ -62,12 +62,12 @@ begin
     reset_tb <= '0';
     wait for period;
 
-    enable_tb  <= '1';
+    load_tb  <= '1';
     data_in_tb <= "00000010";
     wait for period;
     assert data_out_tb = "00000010" report "Data mismatch at enable off" severity error;
 
-    enable_tb  <= '0';
+    load_tb  <= '0';
     data_in_tb <= "00000001";
     wait for period;
     assert data_out_tb = "00000010" report "Data mismatch at enable off" severity error;
@@ -76,7 +76,7 @@ begin
     data_in_tb <= "00000000";
     wait for period;
 
-    enable_tb <= '1';
+    load_tb <= '1';
     for i in 0 to 255 loop
       data_in_tb <= std_logic_vector(to_unsigned(i, 8));
       wait for period;
