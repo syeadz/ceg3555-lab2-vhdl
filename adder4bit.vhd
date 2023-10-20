@@ -7,18 +7,19 @@ entity adder4bit is
     a      : in std_logic_vector(3 downto 0);
     b      : buffer std_logic_vector(3 downto 0);
     sub_op : in std_logic;
-    sum    : out std_logic_vector(3 downto 0);
+    sum    : out std_logic_vector(7 downto 0);
     cout   : out std_logic; -- overflow
     zero   : out std_logic -- zero
   );
 end;
 
 architecture rtl of adder4bit is
-  signal cin   : std_logic;
-  signal cout0 : std_logic;
-  signal cout1 : std_logic;
-  signal cout2 : std_logic;
-  signal int_b : std_logic_vector(3 downto 0);
+  signal cin     : std_logic;
+  signal cout0   : std_logic;
+  signal cout1   : std_logic;
+  signal cout2   : std_logic;
+  signal int_b   : std_logic_vector(3 downto 0);
+  signal int_sum : std_logic_vector(3 downto 0);
 begin
   -- 2's complement if sub_op
   cin      <= sub_op;
@@ -32,7 +33,7 @@ begin
     a    => a(0),
     b    => int_b(0),
     cin  => cin,
-    sum  => sum(0),
+    sum  => int_sum(0),
     cout => cout0
     );
 
@@ -41,7 +42,7 @@ begin
     a    => a(1),
     b    => int_b(1),
     cin  => cout0,
-    sum  => sum(1),
+    sum  => int_sum(1),
     cout => cout1
     );
 
@@ -50,7 +51,7 @@ begin
     a    => a(2),
     b    => int_b(2),
     cin  => cout1,
-    sum  => sum(2),
+    sum  => int_sum(2),
     cout => cout2
     );
 
@@ -59,7 +60,9 @@ begin
     a    => a(3),
     b    => int_b(3),
     cin  => cout2,
-    sum  => sum(3),
+    sum  => int_sum(3),
     cout => cout
     );
+
+  sum <= '0' & '0' & '0' & '0' & int_sum(3) & int_sum(2) & int_sum(1) & int_sum(0);
 end architecture;
