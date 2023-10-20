@@ -4,12 +4,12 @@ use ieee.std_logic_1164.all;
 entity alu4bit is
   port
   (
-    a       : in std_logic_vector(3 downto 0);
-    b       : buffer std_logic_vector(3 downto 0);
-    op      : in std_logic_vector(1 downto 0);
-    f       : out std_logic_vector(7 downto 0);
-    c, z, v : out std_logic;
-    hexa1, hexa2, hexb1, hexb2, hexf1, hexf2, hexf3, hexf4 : out std_logic_vector(6 downto 0)
+    a                        : in std_logic_vector(3 downto 0);
+    b                        : buffer std_logic_vector(3 downto 0);
+    op                       : in std_logic_vector(1 downto 0);
+    f                        : inout std_logic_vector(7 downto 0);
+    c, z, v                  : out std_logic;
+    hexa, hexb, hexf1, hexf2 : out std_logic_vector(6 downto 0)
   );
 end;
 
@@ -21,17 +21,52 @@ begin
   mul_op <= op(0) and not op(1);
   div_op <= op(0) and op(1);
 
-  dec_hexa1 : entity work.dec_7seg port map (
-        i_hexDigit => a,
-        o_segment_a => hexa1(0),
-        o_segment_b => hexa1(1),
-        o_segment_c => hexa1(2),
-        o_segment_d => hexa1(3),
-        o_segment_e => hexa1(4),
-        o_segment_f => hexa1(5)
+  dec_hexa : entity work.dec_7seg port map
+    (
+    i_hexDigit  => a,
+    o_segment_a => hexa(0),
+    o_segment_b => hexa(1),
+    o_segment_c => hexa(2),
+    o_segment_d => hexa(3),
+    o_segment_e => hexa(4),
+    o_segment_f => hexa(5)
     );
 
-  adder : entity work.adder4bit port map
+  dec_hexb : entity work.dec_7seg port
+    map (
+    i_hexDigit  => b,
+    o_segment_a => hexb(0),
+    o_segment_b => hexb(1),
+    o_segment_c => hexb(2),
+    o_segment_d => hexb(3),
+    o_segment_e => hexb(4),
+    o_segment_f => hexb(5)
+    );
+
+  dec_hexf1 : entity work.dec_7seg port
+    map (
+    i_hexDigit  => f(3 downto 0),
+    o_segment_a => hexf1(0),
+    o_segment_b => hexf1(1),
+    o_segment_c => hexf1(2),
+    o_segment_d => hexf1(3),
+    o_segment_e => hexf1(4),
+    o_segment_f => hexf1(5)
+    );
+
+  dec_hexf2 : entity work.dec_7seg port
+    map (
+    i_hexDigit  => f(7 downto 4),
+    o_segment_a => hexf2(0),
+    o_segment_b => hexf2(1),
+    o_segment_c => hexf2(2),
+    o_segment_d => hexf2(3),
+    o_segment_e => hexf2(4),
+    o_segment_f => hexf2(5)
+    );
+
+  adder : entity work.adder4bit port
+    map
     (
     a      => a,
     b      => b,
