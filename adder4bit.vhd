@@ -64,5 +64,5 @@ begin
     cout => cout
     );
 
-  sum <= '0' & '0' & '0' & '0' & int_sum(3) & int_sum(2) & int_sum(1) & int_sum(0);
+  sum <= int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(2) & int_sum(1) & int_sum(0);
 end architecture;
