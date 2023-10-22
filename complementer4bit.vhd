@@ -10,13 +10,13 @@ entity complementer4bit is
 end;
 
 architecture rtl of complementer4bit is
-  signal data : std_logic_vector(3 downto 0);
+  signal data1, data2 : std_logic_vector(3 downto 0);
 begin
-    data <= not data_in; -- 1's complement
-    data(0) <= data(0) xor '1';
-    data(1) <= data(0);
-    data(2) <= data(1) and data(0);
-    data(3) <= data(2) and data(1) and data(0);
+  data1    <= not data_in; -- 1's complement
+  data2(0) <= data1(0) xor '1';
+  data2(1) <= data1(1) xor data1(0);
+  data2(2) <= data1(2) xor (data1(0) and data1(1));
+  data2(3) <= data1(3) xor (data1(0) and data1(1) and data1(2));
 
-    data_out <= data;
+  data_out <= data2;
 end architecture;
