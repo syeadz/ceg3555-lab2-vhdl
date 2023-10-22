@@ -9,7 +9,6 @@ architecture rtl of comparator4bit_tb is
   signal a_tb, b_tb                    : std_logic_vector(3 downto 0);
   signal greater_tb, equal_tb, less_tb : std_logic;
 
-  signal sim_end  : boolean := false;
   constant period : time    := 50 ns;
 begin
   uut : entity work.comparator4bit
