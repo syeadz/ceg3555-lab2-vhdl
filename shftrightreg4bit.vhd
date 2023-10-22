@@ -1,35 +1,38 @@
-library ieee;
-use ieee.std_logic_1164.all;
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
 
-entity shftleftreg4bit is
+entity shftrightreg4bit is
   port
   (
     clk      : in std_logic;
-    reset    : in std_logic;
-    enable   : in std_logic;
+    rst      : in std_logic;
+    load     : in std_logic;
+    shift    : in std_logic;
     data_in  : in std_logic_vector(3 downto 0);
-    data_out : out std_logic_vector(3 downto 0);
-    shift    : in std_logic
+    data_out : out std_logic_vector(3 downto 0)
   );
 end;
 
-architecture rtl of shftleftreg4bit is
-  signal int_data_in : std_logic_vector(3 downto 0);
-  signal int_data_out: std_logic_vector(3 downto 0);
+architecture rtl of shftrightreg4bit is
+  signal reg_data : std_logic_vector(3 downto 0) := "0000";
 begin
-  int_data_in(0) <= (data_in(0) and not shift) or (data_in(1) and shift);
-  int_data_in(0) <= (data_in(1) and not shift) or (data_in(2) and shift);
-  int_data_in(0) <= (data_in(2) and not shift) or (data_in(3) and shift);
-  int_data_in(0) <= (data_in(3) and not shift) or (data_in(0) and shift);
+  process (clk, rst)
+  begin
+    if rst = '1' then
+      -- Reset the register
+      reg_data <= "0000";
+    elsif rising_edge(clk) then
+      if load = '1' then
+        if shift = '1' then
+          -- Shift the register
+          reg_data <= data_in(0) & data_in(3 downto 1);
+        else
+          -- Load the register
+          reg_data <= data_in;
+        end if;
+      end if;
+    end if;
+  end process;
 
-  reg4bit : entity work.register4bit port map
-    (
-      clk => clk,
-      reset => reset,
-      enable => enable,
-      data_in => int_data_in,
-      data_out => int_data_out
-    );
-
-    data_out <= int_data_out;
-end rtl;
+  data_out <= reg_data;
+end;

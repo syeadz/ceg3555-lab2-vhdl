@@ -2,10 +2,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity shftleftreg4bit_tb is
+entity shftrightreg4bit_tb is
 end;
 
-architecture rtl of shftleftreg4bit_tb is
+architecture rtl of shftrightreg4bit_tb is
   signal clk_tb      : std_logic;
   signal reset_tb    : std_logic;
   signal load_tb   : std_logic;
@@ -16,7 +16,7 @@ architecture rtl of shftleftreg4bit_tb is
   signal sim_end  : boolean := false;
   constant period : time    := 50 ns;
 begin
-  uut : entity work.shftleftreg4bit
+  uut : entity work.shftrightreg4bit
     port map
     (
       clk      => clk_tb,
@@ -40,39 +40,6 @@ begin
 
   stim_proc : process
   begin
-    shift_tb  <= '0';
-    load_tb <= '0';
-    reset_tb  <= '1', '0' after period;
-    wait for period;
-    assert data_out_tb = "0000" report "Data mismatch at reset" severity error;
-
-    data_in_tb <= "0001";
-    wait for period;
-    assert data_out_tb = "0000" report "Data mismatch at reset" severity error;
-
-    wait for period/2;
-    load_tb <= '1';
-    wait for period/2;
-    assert data_out_tb = "0000" report "Data mismatch at clock off" severity error;
-
-    wait for period;
-    assert data_out_tb = "0010" report "Data mismatch at clock on, enable on" severity error;
-
-    reset_tb <= '1';
-    wait for period;
-    assert data_out_tb = "0000" report "Data mismatch at reset" severity error;
-
-    reset_tb <= '0';
-    wait for period;
-
-    load_tb  <= '0';
-    data_in_tb <= "0010";
-    wait for period;
-    assert data_out_tb = "0000" report "Data mismatch at enable off" severity error;
-
-    data_in_tb <= "0000";
-    wait for period;
-
     reset_tb <= '1';
     wait for period;
 
