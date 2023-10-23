@@ -66,7 +66,17 @@ begin
     loadMT_tb <= '1';
     clearP_tb <= '1';
     zeroC_tb  <= '1';
-    wait for period*2;
+    wait for period * 2;
+    assert negMT_tb = '1' report "negMT_tb is not '1'" severity error;
+
+    mt_tb     <= "0000";
+    mp_tb     <= "0011";
+    loadMP_tb <= '1';
+    loadMT_tb <= '1';
+    clearP_tb <= '1';
+    zeroC_tb  <= '1';
+    wait for period * 2;
+    assert equal0MT_tb = '1' report "equal0MT_tb is not '1'" severity error;
 
     sim_end <= true;
     wait;
