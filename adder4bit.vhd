@@ -5,7 +5,7 @@ entity adder4bit is
   port
   (
     a      : in std_logic_vector(3 downto 0);
-    b      : buffer std_logic_vector(3 downto 0);
+    b      : in std_logic_vector(3 downto 0);
     sub_op : in std_logic;
     sum    : out std_logic_vector(7 downto 0);
     cout   : out std_logic; -- overflow
@@ -64,5 +64,6 @@ begin
     cout => cout
     );
 
-  sum <= int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(2) & int_sum(1) & int_sum(0);
+  zero <= not (int_sum(3) or int_sum(2) or int_sum(1) or int_sum(0));
+  sum  <= int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(3) & int_sum(2) & int_sum(1) & int_sum(0);
 end architecture;

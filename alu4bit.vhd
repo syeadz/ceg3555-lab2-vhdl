@@ -4,11 +4,12 @@ use ieee.std_logic_1164.all;
 entity alu4bit is
   port
   (
-    a       : in std_logic_vector(3 downto 0);
-    b       : in std_logic_vector(3 downto 0);
-    f       : out std_logic_vector(7 downto 0);
-    op      : in std_logic_vector(1 downto 0);
-    c, z, v : out std_logic
+    a        : in std_logic_vector(3 downto 0);
+    b        : in std_logic_vector(3 downto 0);
+    f        : out std_logic_vector(7 downto 0);
+    op       : in std_logic_vector(1 downto 0);
+    c, z, v  : out std_logic;
+    clk, rst : in std_logic
   );
 end;
 
@@ -31,6 +32,6 @@ begin
     cout   => c,
     zero   => z
     );
-
+    
   f <= int_f;
 end architecture;
